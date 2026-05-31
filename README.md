@@ -1,6 +1,6 @@
 # Kalkulator Wynagrodzeń i Emerytur
 
-Projekt implementacyjny na podstawie specyfikacji.
+Projekt implementacyjny na podstawie specyfikacji WAT 2026.
 
 ## Wymagania wstępne
 
@@ -14,7 +14,14 @@ Projekt implementacyjny na podstawie specyfikacji.
 
 1. Uruchom **Docker Desktop** i upewnij się, że działa w tle.
 
-2. Przejdź do katalogu projektu i uruchom kontenery:
+2. Sklonuj repozytorium:
+
+```bash
+git clone https://github.com/zbigniew-platkowski/kalkulator-wynagrodzen.git
+cd kalkulator-wynagrodzen
+```
+
+3. Uruchom kontenery:
 
 ```bash
 cd .\backend\Kalkulator.API\
