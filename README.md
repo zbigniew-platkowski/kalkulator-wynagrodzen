@@ -1,6 +1,6 @@
 # Kalkulator Wynagrodzeń i Emerytur
 
-Projekt implementacyjny na podstawie specyfikacji WAT 2026.
+Projekt implementacyjny na podstawie specyfikacji.
 
 ## Wymagania wstępne
 
