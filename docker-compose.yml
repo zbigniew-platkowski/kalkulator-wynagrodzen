@@ -1,0 +1,55 @@
+services:
+
+  db:
+    image: postgres:16-alpine
+    container_name: kalkulator_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: kalkulator_db
+      POSTGRES_USER: kalkulator_user
+      POSTGRES_PASSWORD: KalkulatorPass123!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kalkulator_user -d kalkulator_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kalkulator_backend
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=kalkulator_db;Username=kalkulator_user;Password=KalkulatorPass123!"
+      Jwt__Key: "SuperTajnyKluczJWT_MinimumN32Znaki!!"
+      Jwt__Issuer: "KalkulatorAPI"
+      Jwt__Audience: "KalkulatorFrontend"
+      Jwt__ExpiryMinutes: "60"
+    ports:
+      - "5000:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: ""
+    container_name: kalkulator_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
